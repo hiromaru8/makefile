@@ -8,8 +8,6 @@
 TARGET_PLATFORM ?= ZYNQ7000LINUX
 $(warning TARGET_PLATFORM = $(TARGET_PLATFORM))
 
-OBJDIR := $(TARGET_PLATFORM)
-BINDIR := $(TARGET_PLATFORM)
 
 
 # ------------------------------------------------
@@ -30,16 +28,23 @@ else
 	@exit 1
 endif
 
-# ディレクトリ作成
-$(shell mkdir -p $(OBJDIR) $(BINDIR))
 
 # ------------------------------------------------
 # ビルド対象のファイルとディレクトリ
 # ------------------------------------------------
+# ターゲットプログラム
 TARGET_EXEC := hello_world
+
+# ディレクトリ作成
+OBJDIR := $(TARGET_PLATFORM)/obj_$(TARGET_EXEC)
+BINDIR := $(TARGET_PLATFORM)
+$(shell mkdir -p $(OBJDIR) $(BINDIR))
+
+
 # sorce
-SRCDIR := ../hello/src
-INCDIR := ../hello/include
+MODDIR := ../hello
+SRCDIR := $(MODDIR)/src
+INCDIR := $(MODDIR)/include
 # includeフォルダ追加
 CFLAGS := $(CFLAGS) -I $(INCDIR)
 
@@ -48,9 +53,6 @@ SRCS := $(wildcard $(SRCDIR)/*.c) \
         $(wildcard $(SRCDIR)/*.cpp) \
         $(wildcard $(SRCDIR)/*.s) 
 OBJS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
-
-
-
 
 
 # ==============================================================================
