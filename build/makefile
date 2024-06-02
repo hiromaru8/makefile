@@ -44,7 +44,7 @@ INCDIR := ../hello/include
 CFLAGS := $(CFLAGS) -I $(INCDIR)
 
 # ソースファイルとオブジェクトファイルのリスト
-SRCS := $(wildcard $(SRCDIR)/*.c)
+SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 
