@@ -36,7 +36,7 @@ $(shell mkdir -p $(OBJDIR) $(BINDIR))
 # ------------------------------------------------
 # ビルド対象のファイルとディレクトリ
 # ------------------------------------------------
-TARGET_EXE_PROG := hello_world
+TARGET_EXEC := hello_world
 # sorce
 SRCDIR := ../hello/src
 INCDIR := ../hello/include
@@ -44,8 +44,12 @@ INCDIR := ../hello/include
 CFLAGS := $(CFLAGS) -I $(INCDIR)
 
 # ソースファイルとオブジェクトファイルのリスト
-SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
+SRCS := $(wildcard $(SRCDIR)/*.c) \
+        $(wildcard $(SRCDIR)/*.cpp) \
+        $(wildcard $(SRCDIR)/*.s) 
 OBJS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
+
+
 
 
 
@@ -56,7 +60,7 @@ OBJS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
 #  ビルド
 # ------------------------------------------------
 # ターゲット
-$(BINDIR)/$(TARGET_EXE_PROG): $(OBJS)
+$(BINDIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) -o $@ $^
 
 
@@ -75,7 +79,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 # 削除対象： oファイル、実行ファイル
 .PHONY: clean
 clean:
-	rm -f $(OBJDIR)/*.o $(BINDIR)/$(TARGET_EXE_PROG)
+	rm -f $(OBJDIR)/*.o $(BINDIR)/$(TARGET_EXEC)
 
 # 削除対象： ディレクトリごと
 .PHONY: allclean
